@@ -11,37 +11,33 @@ use Symfony\Component\Routing\Annotation\Route;
 */
 class BlogController extends AbstractController
 {
-    private const POSTS = [
-        [ 'id' => 1, 'title' => 'title 1', 'slug' => 'title1' ],
-        [ 'id' => 2, 'title' => 'title 2', 'slug' => 'title2' ],
-        [ 'id' => 3, 'title' => 'title 3', 'slug' => 'title3' ],
-    ];
-
     /**
      * @Route("/", name="blog_list", defaults={"page": 5}, requirements={"page"="\d+"})
     */
     public function list(Request $request, $page = 1)
     {
         $limit = $request->get('limit', 10);
+        $repository = $this->getDoctrine()->getRepository(BlogPost::class);
+        $data = $repository->findAll();
 
         return $this->json(
             [
                 'page'  =>  $page,
                 'limit' => $limit,
-                'data'  =>  array_map(function($item){
-                    return $this->generateUrl('blog_by_slug', ['slug' => $item['slug']]);
-                }, self::POSTS),
+                'data'  =>  array_map(function(BlogPost $item){
+                    return $this->generateUrl('blog_by_slug', ['slug' => $item->getSlug()]);
+                }, $data),
             ]
         );
     }
 
     /**
-     * @Route("/post/{$id}", name="blog_by_id", requirements={"id"="\d+"})
+     * @Route("/post/{id}", name="blog_by_id", requirements={"id"="\d+"})
     */
     public function post($id)
     {
         return $this->json(
-            self::POSTS[array_search($id, array_column(self::POSTS, 'id'))]
+            $this->getDoctrine()->getRepository(BlogPost::class)->find($id)
         );
     }
 
@@ -51,7 +47,7 @@ class BlogController extends AbstractController
     public function postBySlug($slug)
     {
         return $this->json(
-            self::POSTS[array_search($slug, array_column(self::POSTS, 'slug'))]
+            $this->getDoctrine()->getRepository(BlogPost::class)->findBy(['slug' => $slug])
         );
     }
 
