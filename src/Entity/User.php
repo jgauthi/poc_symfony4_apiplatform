@@ -15,13 +15,31 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     itemOperations={
  *          "get"={
- *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY')"
+ *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *              "normalization_context"={
+ *                  "groups"={"getFields"}
+ *              }
+ *          },
+ *          "put"={
+ *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user",
+ *              "denormalization_context"={
+ *                  "groups"={"putFields"}
+ *              },
+ *              "normalization_context"={
+ *                  "groups"={"getFields"}
+ *              }
  *          }
  *     },
- *     collectionOperations={"post"},
- *     normalizationContext={
- *          "groups"={"read"}
- *     }
+ *     collectionOperations={
+ *          "post"={
+ *              "denormalization_context"={
+ *                  "groups"={"postFields"}
+ *              },
+ *              "normalization_context"={
+ *                  "groups"={"getFields"}
+ *              }
+ *          }
+ *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("username")
@@ -33,13 +51,13 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"getFields"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
+     * @Groups({"getFields", "postFields"})
      * @Assert\NotBlank()
      * @Assert\Length(min="6", max="255")
      */
@@ -47,6 +65,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"postFields", "putFields"})
      * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="#(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}#",
@@ -57,6 +76,7 @@ class User implements UserInterface
 
     /**
      * [Api] Check password
+     * @Groups({"postFields", "putFields"})
      * @Assert\NotBlank()
      * @Assert\Expression(
      *     "this.getPassword() === this.getRetypePassword()",
@@ -67,14 +87,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
+     * @Groups({"getFields", "postFields", "putFields"})
      * @Assert\Length(min="6", max="255")
      */
     private $fullname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
+     * @Groups({"getFields", "postFields", "putFields"})
      * @Assert\NotBlank()
      * @Assert\Length(min="6", max="255")
      */
@@ -82,6 +102,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"PostFields"})
      * @Assert\NotBlank()
      * @Assert\Email()
      * @Assert\Length(min="6", max="255")
@@ -90,13 +111,13 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\BlogPost", mappedBy="author")
-     * @Groups({"read"})
+     * @Groups({"getFields"})
      */
     private $posts;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
-     * @Groups({"read"})
+     * @Groups({"getFields"})
      */
     private $comments;
 
@@ -205,7 +226,7 @@ class User implements UserInterface
     {
         if ($this->posts->contains($post)) {
             $this->posts->removeElement($post);
-            // set the owning side to null (unless already changed)
+            // set the owning side to null (unless algetFieldsy changed)
             if ($post->getAuthor() === $this) {
                 $post->setAuthor(null);
             }
@@ -236,7 +257,7 @@ class User implements UserInterface
     {
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
+            // set the owning side to null (unless algetFieldsy changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
             }
