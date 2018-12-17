@@ -57,7 +57,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"getFields", "get-comment-with-author", "postFields"})
+     * @Groups({"getFields", "get-comment-with-author", "get-blog-post-with-author", "postFields"})
      * @Assert\NotBlank()
      * @Assert\Length(min="6", max="255")
      */
@@ -87,14 +87,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"getFields", "get-comment-with-author", "postFields", "putFields"})
+     * @Groups({"getFields", "get-comment-with-author", "get-blog-post-with-author", "postFields", "putFields"})
      * @Assert\Length(min="6", max="255")
      */
     private $fullname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"getFields", "get-comment-with-author", "postFields", "putFields"})
+     * @Groups({"getFields", "get-comment-with-author", "get-blog-post-with-author", "postFields", "putFields"})
      * @Assert\NotBlank()
      * @Assert\Length(min="6", max="255")
      */
