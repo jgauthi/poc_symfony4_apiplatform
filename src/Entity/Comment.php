@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ApiResource(
@@ -22,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  */
-class Comment
+class Comment implements AuthoredEntityInterface, PublishedDateEntityInterface
 {
     /**
      * @ORM\Id()
@@ -75,19 +76,23 @@ class Comment
         return $this->published;
     }
 
-    public function setPublished(\DateTimeInterface $published): self
+    public function setPublished(\DateTimeInterface $published): PublishedDateEntityInterface
     {
         $this->published = $published;
 
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor(): ?UserInterface
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    /**
+     * @param null|UserInterface $author
+     * @return AuthoredEntityInterface
+     */
+    public function setAuthor(?UserInterface $author): AuthoredEntityInterface
     {
         $this->author = $author;
 
