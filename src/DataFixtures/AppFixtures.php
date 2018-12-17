@@ -11,7 +11,14 @@ class AppFixtures extends Fixture
 {
     private $passwordEncode;
     private $faker;
-    private const USERNAMES = ['admin', 'auteur', 'some_api_user', 'user'];
+    private const USERS =
+    [
+        'superadmin'    => ['roles' => [User::ROLE_SUPERADMIN]],
+        'admin'         => ['roles' => [User::ROLE_ADMIN]],
+        'editor'        => ['roles' => [User::ROLE_EDITOR]],
+        'writer'        => ['roles' => [User::ROLE_WRITER]],
+        'commentator'   => ['roles' => [User::ROLE_COMMENTATOR]],
+    ];
     private const PASSWORD = 'local';
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
@@ -29,12 +36,13 @@ class AppFixtures extends Fixture
 
     public function loadUser(ObjectManager $manager): void
     {
-        foreach (self::USERNAMES as $userName) {
+        foreach (self::USERS as $userName => ['roles' => $roles]) {
             $user = new User();
             $user->setUsername($userName)
                 ->setEmail("{$userName}@symfony.local")
                 ->setFullname($this->faker->firstName)
                 ->setName($this->faker->lastName)
+                ->setRoles($roles)
             ;
             $user->setPassword($this->passwordEncode->encodePassword($user, self::PASSWORD));
 
@@ -47,11 +55,17 @@ class AppFixtures extends Fixture
 
     public function loadBlogPost(ObjectManager $manager): void
     {
+        $userRolesSupport = [
+            User::ROLE_SUPERADMIN,
+            User::ROLE_ADMIN,
+            User::ROLE_WRITER,
+        ];
+
         for($i = 0; $i < 100; $i++) {
             $post = new BlogPost();
             $post->setTitle($this->faker->realText(30))
                 ->setSlug( $this->faker->slug )
-                ->setAuthor($this->getRandomUser())
+                ->setAuthor($this->getRandomUser($userRolesSupport))
                 ->setContent($this->faker->realText())
                 ->setPublished($this->faker->dateTimeThisYear);
 
@@ -65,10 +79,17 @@ class AppFixtures extends Fixture
 
     public function loadComment(ObjectManager $manager): void
     {
+        $userRolesSupport = [
+            User::ROLE_SUPERADMIN,
+            User::ROLE_ADMIN,
+            User::ROLE_WRITER,
+            User::ROLE_COMMENTATOR,
+        ];
+
         for($i = 0; $i < 100; $i++) {
             for($j = 0; $j < rand(1,10); $j++) {
                 $comment = new Comment();
-                $comment->setAuthor($this->getRandomUser())
+                $comment->setAuthor($this->getRandomUser($userRolesSupport))
                     ->setContent($this->faker->realText())
                     ->setPublished($this->faker->dateTimeThisYear)
                     ->setBlogPost($this->getReference("blog_post_$i"))
@@ -81,11 +102,15 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private function getRandomUser(): User
+    private function getRandomUser($supportRoles = []): User
     {
-        $randomUsername = self::USERNAMES[mt_rand(0, count(self::USERNAMES) - 1)];
-        $user = $this->getReference('user_' . $randomUsername);
+        $randomUsername = array_rand(self::USERS);
 
+        if (!empty($supportRoles) && !count(array_intersect(self::USERS[$randomUsername]['roles'], $supportRoles))) {
+            return $this->getRandomUser($supportRoles);
+        }
+
+        $user = $this->getReference('user_' . $randomUsername);
         return $user;
     }
 }
