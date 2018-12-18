@@ -135,6 +135,11 @@ class User implements UserInterface
     private $oldPassword;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $passwordChangeTimestamp;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"getFields", "get-comment-with-author", "get-blog-post-with-author", "postFields", "putFields"})
      * @Assert\Length(min="6", max="255", groups={"postFields", "putFields"})
@@ -256,6 +261,18 @@ class User implements UserInterface
     public function setOldPassword(string $password): self
     {
         $this->oldPassword = $password;
+
+        return $this;
+    }
+
+    public function getPasswordChangeTimestamp(): ?int
+    {
+        return $this->passwordChangeTimestamp;
+    }
+
+    public function setPasswordChangeTimestamp(?int $passwordChangeTimestamp): self
+    {
+        $this->passwordChangeTimestamp = $passwordChangeTimestamp;
 
         return $this;
     }
