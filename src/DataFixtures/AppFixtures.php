@@ -3,28 +3,33 @@
 namespace App\DataFixtures;
 
 use App\Entity\{BlogPost, Comment, User};
+use App\Security\TokenAuthenticator;
+use App\Security\TokenGenerator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
-    private $passwordEncode;
-    private $faker;
     private const USERS =
     [
-        'superadmin'    => ['roles' => [User::ROLE_SUPERADMIN]],
-        'admin'         => ['roles' => [User::ROLE_ADMIN]],
-        'editor'        => ['roles' => [User::ROLE_EDITOR]],
-        'writer'        => ['roles' => [User::ROLE_WRITER]],
-        'commentator'   => ['roles' => [User::ROLE_COMMENTATOR]],
+        'superadmin'    => ['enabled' => true, 'roles' => [User::ROLE_SUPERADMIN]],
+        'admin'         => ['enabled' => false, 'roles' => [User::ROLE_ADMIN]],
+        'editor'        => ['enabled' => true, 'roles' => [User::ROLE_EDITOR]],
+        'writer'        => ['enabled' => true, 'roles' => [User::ROLE_WRITER]],
+        'commentator'   => ['enabled' => true, 'roles' => [User::ROLE_COMMENTATOR]],
     ];
     private const PASSWORD = 'local';
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    private $faker;
+    private $passwordEncode;
+    private $tokenGenerator;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, TokenGenerator $tokenGenerator)
     {
-        $this->passwordEncode = $passwordEncoder;
         $this->faker = \Faker\Factory::create();
+        $this->passwordEncode = $passwordEncoder;
+        $this->tokenGenerator = $tokenGenerator;
     }
 
     public function load(ObjectManager $manager): void
@@ -36,16 +41,20 @@ class AppFixtures extends Fixture
 
     public function loadUser(ObjectManager $manager): void
     {
-        foreach (self::USERS as $userName => ['roles' => $roles]) {
+        foreach (self::USERS as $userName => ['enabled' => $enabled, 'roles' => $roles]) {
             $user = new User();
             $user->setUsername($userName)
                 ->setEmail("{$userName}@symfony.local")
                 ->setFullname($this->faker->firstName)
                 ->setName($this->faker->lastName)
                 ->setRoles($roles)
-                ->setEnabled(true)
+                ->setEnabled($enabled)
             ;
             $user->setPassword($this->passwordEncode->encodePassword($user, self::PASSWORD));
+
+            if (!$enabled) {
+               $user->setConfirmationToken( $this->tokenGenerator->getRandomSecureToken());
+            }
 
             $this->addReference('user_'. $userName, $user);
             $manager->persist($user);
