@@ -43,6 +43,7 @@ class AppFixtures extends Fixture
                 ->setFullname($this->faker->firstName)
                 ->setName($this->faker->lastName)
                 ->setRoles($roles)
+                ->setEnabled(true)
             ;
             $user->setPassword($this->passwordEncode->encodePassword($user, self::PASSWORD));
 
