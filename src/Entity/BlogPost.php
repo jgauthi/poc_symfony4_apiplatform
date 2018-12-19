@@ -2,7 +2,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\{ApiFilter, ApiResource, ApiSubresource};
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\{DateFilter, RangeFilter, SearchFilter};
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\{DateFilter, OrderFilter, RangeFilter, SearchFilter};
+use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,11 +17,29 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "id": "exact",
  *          "title": "ipartial",
  *          "content": "partial",
- *          "author": "exact"
+ *          "author": "exact",
+ *          "author.name": "partial"
  *     }
  * )
  * @ApiFilter(DateFilter::class, properties={"published"})
  * @ApiFilter(RangeFilter::class, properties={"id"})
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={
+ *          "id",
+ *          "published",
+ *          "title"
+ *     },
+ *     arguments={"orderParameterName"="_order"}
+ * )
+ * @ApiFilter(
+ *     PropertyFilter::class,
+ *     arguments={
+ *          "parameterName": "properties",
+ *          "overrideDefaultProperties": false,
+ *          "whitelist": {"id", "slug", "title", "content", "author"}
+ *     }
+ * )
  * @ApiResource(
  *     attributes={"order"={"published": "DESC"}},
  *     itemOperations={
