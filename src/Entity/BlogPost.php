@@ -2,7 +2,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\{ApiFilter, ApiResource, ApiSubresource};
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\{DateFilter, RangeFilter, SearchFilter};
 use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "author": "exact"
  *     }
  * )
+ * @ApiFilter(DateFilter::class, properties={"published"})
+ * @ApiFilter(RangeFilter::class, properties={"id"})
  * @ApiResource(
  *     attributes={"order"={"published": "DESC"}},
  *     itemOperations={
