@@ -3,39 +3,38 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\UserConfirmation;
-use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Security\UserConfirmationService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\{JsonResponse, Response};
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class UserConfirmationSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var UserRepository
+     * @var UserConfirmationService
      */
-    private $userRepository;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private $userConfirmationService;
 
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager)
+    public function __construct(UserConfirmationService $userConfirmationService)
     {
-        $this->userRepository = $userRepository;
-        $this->entityManager = $entityManager;
+        $this->userConfirmationService = $userConfirmationService;
     }
 
-    public static function getSubscribedEvents()
+    /**
+     * @return array
+     */
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => ['confirmUser', EventPriorities::POST_VALIDATE]
         ];
     }
 
-    public function confirmUser(GetResponseForControllerResultEvent $event)
+    /**
+     * @param GetResponseForControllerResultEvent $event
+     */
+    public function confirmUser(GetResponseForControllerResultEvent $event): void
     {
         $request = $event->getRequest();
 
@@ -45,15 +44,7 @@ class UserConfirmationSubscriber implements EventSubscriberInterface
 
         /** @var UserConfirmation $confirmationToken */
         $confirmationToken = $event->getControllerResult();
-        $user = $this->userRepository->findOneBy(['confirmationToken' => $confirmationToken->confirmationToken]);
-
-        if(!$user) {
-            throw new NotFoundHttpException();
-        }
-
-        $user->setEnabled(true)
-             ->setConfirmationToken(null);
-        $this->entityManager->flush();
+        $this->userConfirmationService->confirmUser($confirmationToken->confirmationToken);
 
         $event->setResponse( new JsonResponse(null, Response::HTTP_OK) );
     }
