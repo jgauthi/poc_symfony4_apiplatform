@@ -33,6 +33,7 @@ class UserConfirmationSubscriber implements EventSubscriberInterface
 
     /**
      * @param GetResponseForControllerResultEvent $event
+     * @throws \App\Exception\InvalidConfirmationTokenException
      */
     public function confirmUser(GetResponseForControllerResultEvent $event): void
     {
