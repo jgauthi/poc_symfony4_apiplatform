@@ -45,6 +45,11 @@ class Image
      */
     private $url;
 
+    public function __toString(): string
+    {
+        return $this->id.':'.$this->url;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

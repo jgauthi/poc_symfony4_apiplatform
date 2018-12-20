@@ -202,6 +202,11 @@ class User implements UserInterface
         $this->confirmationToken = null;
     }
 
+    public function __toString(): string
+    {
+        return $this->fullname.' '.$this->name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
