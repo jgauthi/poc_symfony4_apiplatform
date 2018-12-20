@@ -39,3 +39,7 @@ services:
         arguments: ['@security.token_storage']
         tags:
         - { name: serializer.normalizer, priotity: 64 }
+
+    App\Security\UserConfirmationService:
+        arguments:
+            $logger: '@monolog.logger.token_confirmation'
