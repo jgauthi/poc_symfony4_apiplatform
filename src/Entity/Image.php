@@ -72,6 +72,11 @@ class Image
         return '/images/' . $this->url;
     }
 
+    public function getRelativePath(): ?string
+    {
+        return __DIR__.'/../../../public' . $this->getUrl();
+    }
+
     public function setUrl(?string $url): self
     {
         $this->url = $url;
