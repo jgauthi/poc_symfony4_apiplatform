@@ -45,6 +45,7 @@ Execute this command to run tests:
 ```bash
 $ cd symfony-demo/
 $ ./bin/phpunit
+$ ./vendor/bin/behat
 ```
 
 [1]: https://symfony.com/doc/current/best_practices/index.html
