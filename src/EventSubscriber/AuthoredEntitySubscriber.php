@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthoredEntitySubscriber implements EventSubscriberInterface
 {
@@ -34,6 +35,7 @@ class AuthoredEntitySubscriber implements EventSubscriberInterface
         $entity = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
+        /** @var UserInterface $user */
         $user = $this->tokenStorage->getToken()->getUser();
 
         if(!$entity instanceof AuthoredEntityInterface || Request::METHOD_POST !== $method) {
