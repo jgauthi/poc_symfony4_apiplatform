@@ -2,7 +2,7 @@
 namespace App\Tests\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
-use App\Entity\{BlogPost, User};
+use App\Entity\{BlogPost, Comment, User};
 use App\EventSubscriber\AuthoredEntitySubscriber;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -25,13 +25,29 @@ class AuthoredEntitySubscriberTest extends TestCase
         );
     }
 
-    public function testSetAuthorCall(): void
+    /**
+     * @param string $classname
+     * @param bool $shouldCallSetAuthor
+     * @param string $method
+     * @dataProvider providerSetAuthorCall
+     */
+    public function testSetAuthorCall(string $classname, bool $shouldCallSetAuthor, string $method): void
     {
-        $entityMock = $this->getEntityMock(BlogPost::class, true);
+        $entityMock = $this->getEntityMock($classname, $shouldCallSetAuthor);
         $tokenStorageMock = $this->getTokenStorageMock();
-        $eventMock = $this->getEventMock('POST', $entityMock);
+        $eventMock = $this->getEventMock($method, $entityMock);
 
         (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
+    }
+
+    public function providerSetAuthorCall(): array
+    {
+        return [
+            [BlogPost::class, true, 'POST'],
+            [BlogPost::class, false, 'GET'],
+            ['NonExisting', false, 'POST'],
+            [Comment::class, true, 'POST'],
+        ];
     }
 
     /**
