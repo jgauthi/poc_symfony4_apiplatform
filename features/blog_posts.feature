@@ -14,3 +14,19 @@ Feature: Manage Blog post
     """
     Then the response status code should be 201
     And the response should be in JSON
+    And the JSON matches expected template:
+    """
+    {
+      "@context": "/api/contexts/BlogPost",
+      "@id": "@string@",
+      "@type": "BlogPost",
+      "comments": [],
+      "id": @integer@,
+      "title": "Hello a title",
+      "content": "The content is suppose to be at least 20 characters",
+      "slug": "a-new-slug",
+      "published": "@string@.isDateTime()",
+      "author": "@string@",
+      "images": []
+    }
+    """
