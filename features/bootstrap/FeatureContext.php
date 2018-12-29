@@ -103,6 +103,11 @@ class FeatureContext extends RestContext
     {
         $actual = $this->request->getContent();
 
-        $this->assertTrue( $this->matcher->match($actual, $json->getRaw()) );
+        $matcherResult = $this->matcher->match($actual, $json->getRaw());
+        if(!$matcherResult) {
+            dump($actual);
+        }
+
+        $this->assertTrue($matcherResult);
     }
 }
