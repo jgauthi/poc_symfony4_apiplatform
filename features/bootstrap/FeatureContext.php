@@ -11,6 +11,14 @@ use Doctrine\ORM\Tools\SchemaTool;
 
 class FeatureContext extends RestContext
 {
+    const AUTH_URL = '/api/login_check';
+    const AUTH_JSON = '
+        {
+            "username": "%s",
+            "password": "%s"
+        }
+    ';
+
     /**
      * @var AppFixtures
      */
@@ -26,6 +34,12 @@ class FeatureContext extends RestContext
      */
     private $em;
 
+    /**
+     * FeatureContext constructor.
+     * @param Request $request
+     * @param AppFixtures $fixtures
+     * @param EntityManagerInterface $em
+     */
     public function __construct(Request $request, AppFixtures $fixtures, EntityManagerInterface $em)
     {
         $this->fixtures = $fixtures;
@@ -36,9 +50,31 @@ class FeatureContext extends RestContext
     }
 
     /**
+     * @Given I am authenticated as :user
+     * @param string $user
+     */
+    public function iAmAuthenticatedAs(string $user): void
+    {
+        $this->request->setHttpHeader('Content-Type', 'application/ld+json');
+        $this->request->send(
+            'POST',
+            $this->locatePath(self::AUTH_URL),
+            [],
+            [],
+            sprintf(self::AUTH_JSON, $user, AppFixtures::PASSWORD)
+        );
+
+        $json = json_decode($this->request->getContent(), true);
+
+        $this->assertTrue( isset($json['token']) );
+        $token = $json['token'];
+        $this->request->setHttpHeader('Authorization', 'Bearer '.$token);
+    }
+
+    /**
      * @BeforeScenario @createSchema
      */
-    public function createSchema()
+    public function createSchema(): void
     {
         // Get entity metadata
         $classes = $this->em->getMetadataFactory()->getAllMetadata();

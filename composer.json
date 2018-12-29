@@ -6,6 +6,7 @@
         "php": "^7.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "api-platform/api-pack": "^1.1",
         "easycorp/easyadmin-bundle": "^2.0",
         "lexik/jwt-authentication-bundle": "^2.6",

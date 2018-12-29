@@ -19,7 +19,7 @@ class AppFixtures extends Fixture
         'writer'        => ['enabled' => true, 'roles' => [User::ROLE_WRITER]],
         'commentator'   => ['enabled' => true, 'roles' => [User::ROLE_COMMENTATOR]],
     ];
-    private const PASSWORD = 'local';
+    const PASSWORD = 'local';
 
     private $faker;
     private $passwordEncode;
