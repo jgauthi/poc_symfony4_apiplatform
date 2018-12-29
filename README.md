@@ -30,23 +30,34 @@ command to run the built-in web server and access the application in your
 browser at <http://localhost:8000>:
 
 ```bash
-$ cd symfony-demo/
+$ cd symfony-folder/
 $ php bin/console server:run
 ```
 
 Alternatively, you can [configure a web server][3] like Nginx or Apache to run
 the application.
 
-Tests
+Tests with phpunit
 -----
-
 Execute this command to run tests:
 
 ```bash
-$ cd symfony-demo/
-$ ./bin/phpunit
-$ ./vendor/bin/behat
+cd symfony-folder/
+./bin/phpunit
 ```
+
+Tests with Behat
+-----
+Execute this command to run tests:
+
+```bash
+cd symfony-folder/
+APP_ENV=test php -d variables_order=EGPCS -S 127.0.0.1:8000 -t public/
+
+# Open another console
+./vendor/bin/behat
+```
+
 
 [1]: https://symfony.com/doc/current/best_practices/index.html
 [2]: https://symfony.com/doc/current/reference/requirements.html
