@@ -16,6 +16,7 @@ default:
         Behatch\Extension: ~
         Behat\MinkExtension:
             base_url: 'http://127.0.0.1:8000'
+            files_path: 'features/fixtures/files/'
             sessions:
                 default:
                     symfony2: ~

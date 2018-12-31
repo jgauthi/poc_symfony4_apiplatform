@@ -99,7 +99,7 @@ class FeatureContext extends RestContext
      * @Then the JSON matches expected template:
      * @param PyStringNode $json
      */
-    public function theJsonMatchesExpectedTemplate(PyStringNode $json)
+    public function theJsonMatchesExpectedTemplate(PyStringNode $json): void
     {
         $actual = $this->request->getContent();
 
@@ -109,5 +109,16 @@ class FeatureContext extends RestContext
         }
 
         $this->assertTrue($matcherResult);
+    }
+
+    /**
+     * @BeforeScenario @Image
+     */
+    public function prepareImages(): void
+    {
+        copy(
+            __DIR__.'/../fixtures/animaux.jpg',
+            __DIR__.'/../fixtures/files/animaux.jpg'
+        );
     }
 }

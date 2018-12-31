@@ -12,7 +12,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity()
  * @Vich\Uploadable()
  * @ApiResource(
- *     attributes={"order"={"id": "ASC"}},
+ *     attributes={
+ *          "order"={"id": "ASC"},
+ *          "formats"={"json", "jsonld", "form"={"multipart/form-data"}}
+ *     },
  *     collectionOperations={
  *          "get",
  *          "post"={
@@ -70,11 +73,6 @@ class Image
     public function getUrl(): ?string
     {
         return '/images/' . $this->url;
-    }
-
-    public function getRelativePath(): ?string
-    {
-        return __DIR__.'/../../../public' . $this->getUrl();
     }
 
     public function setUrl(?string $url): self
