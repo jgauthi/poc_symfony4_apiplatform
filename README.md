@@ -1,3 +1,98 @@
+POC Symfony 4 api platform
+===========
+
+## Prerequisites
+
+* The PHP version must be greater than or equal to PHP 7.2
+* The SQLite 3 extension must be enabled
+* The JSON extension must be enabled
+* The Ctype extension must be enabled
+* The date.timezone parameter must be defined in php.ini
+
+More information on [symfony website](https://symfony.com/doc/4.2/reference/requirements.html).
+
+## Features developed
+
+
+
+
+## Installation
+Command lines:
+
+```bash
+git clone git@github.com:jgauthi/poc_symfony4_api_platform.git
+cd poc_symfony4_api_platform
+
+composer install
+
+# (optional) Copy and edit configuration values ".env.local"
+
+php bin/console doctrine:database:create --if-not-exists
+php bin/console doctrine:migrations:migrate
+
+# Optional
+php bin/console doctrine:fixtures:load
+```
+
+For the asset symlink install, launch a terminal on administrator in windows environment.
+
+
+## Installation with docker-compose
+
+```bash
+git clone git@github.com:jgauthi/poc_symfony3_fosrestbundle.git
+cd poc_symfony3_fosrestbundle
+
+docker-compose up -d
+docker-compose exec php composer install
+
+# Copy ".env.dist" to ".env"
+# (optional) You can edit configurations values ".env" and "app/config/parameters.yml"
+
+docker-compose exec php php bin/console assets:install --symlink
+docker-compose exec php php bin/console doctrine:database:create --if-not-exists
+docker-compose exec php php bin/console doctrine:migrations:migrate
+
+# Optional
+docker-compose exec php php bin/console doctrine:fixtures:load
+```
+
+## [Docker-compose] Application urls
+This docker-compose use a reverse proxy: [Traefik](https://traefik.io/), url supported:
+
+* [Plaform symfony](http://platform.docker)
+* [phpMyAdmin](http://pma.docker)
+* [mailDev](http://maildev.docker)
+
+
+
+## Prepare deploy prod
+
+* **Temporarily** edit the file web/app.php, change the 2e args to true: ``$kernel = new AppKernel('prod', true);`` and test the site on prod mode.
+* Check prerequisites on prod server: [domain.com]/config.php (edit the file to edit/remove IP verification) OR command line: ``php bin/symfony_requirements``
+* Configure apache symfony dir (virtual host on dev env) to **web/** folder.
+
+## Deploy on prod
+
+* Delete manualy "var/*/" content before send file (ftp)
+* Chmod 755 recursive on prod, on folder: "var/"
+* You can edit web/app_dev.php with personal IP to access dev environment on prod.
+* If an 500 error occurs, check log on "var/logs/prod"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Symfony Demo Application
 ========================
 
