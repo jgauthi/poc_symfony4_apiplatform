@@ -16,6 +16,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *          "order"={"id": "ASC"},
  *          "formats"={"json", "jsonld", "form"={"multipart/form-data"}}
  *     },
+ *     itemOperations={
+ *         "get",
+ *         "delete"={
+ *             "access_control"="is_granted('ROLE_WRITER')"
+ *         }
+ *     },
  *     collectionOperations={
  *          "get",
  *          "post"={

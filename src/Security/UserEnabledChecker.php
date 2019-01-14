@@ -11,7 +11,7 @@ class UserEnabledChecker implements UserCheckerInterface
     /**
      * Checks the user account before authentication.
      *
-     * @throws AccountStatusException
+     * @param UserInterface $user
      */
     public function checkPreAuth(UserInterface $user)
     {
@@ -27,10 +27,10 @@ class UserEnabledChecker implements UserCheckerInterface
     /**
      * Checks the user account after authentication.
      *
-     * @throws AccountStatusException
+     * @param UserInterface $user
      */
     public function checkPostAuth(UserInterface $user)
     {
-        // TODO: Implement checkPostAuth() method.
+
     }
 }
