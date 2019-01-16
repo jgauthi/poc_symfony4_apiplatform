@@ -1,6 +1,7 @@
 <?php
 namespace App\Security;
 
+use App\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\ExpiredTokenException;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\PreAuthenticationJWTUserToken;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Guard\JWTTokenAuthenticator;
@@ -15,6 +16,7 @@ class TokenAuthenticator extends JWTTokenAuthenticator
      */
     public function getUser($preAuthToken, UserProviderInterface $userProvider)
     {
+        /** @var User $user */
         $user = parent::getUser($preAuthToken, $userProvider);
 
         // Expire token if password change
