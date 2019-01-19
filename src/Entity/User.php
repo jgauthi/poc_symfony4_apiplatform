@@ -54,8 +54,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity("username", errorPath="username", groups={"post"})
- * @UniqueEntity("email", groups={"post"})
+ * @UniqueEntity("username", errorPath="username", groups={"postFields", "putFields"})
+ * @UniqueEntity("email", groups={"postFields", "putFields"})
  */
 class User implements UserInterface
 {
@@ -96,16 +96,15 @@ class User implements UserInterface
     private $password;
 
     /**
-     * [Api] Check password
      * @Groups({"postFields"})
      * @Assert\NotBlank(groups={"postFields"})
      * @Assert\Expression(
-     *     "this.getPassword() === this.getRetypePassword()",
+     *     "this.getPassword() === this.getRetypedPassword()",
      *     message="Passwords does not match",
      *     groups={"postFields"}
      * )
      */
-    private $retypePassword;
+    private $retypedPassword;
 
     /**
      * @Groups({"put-reset-password"})
@@ -142,7 +141,7 @@ class User implements UserInterface
     private $passwordChangeTimestamp;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"getFields", "get-comment-with-author", "get-blog-post-with-author", "postFields", "putFields"})
      * @Assert\Length(min="6", max="255", groups={"postFields", "putFields"})
      */
@@ -236,14 +235,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRetypePassword(): ?string
+    public function getRetypedPassword(): ?string
     {
-        return $this->retypePassword;
+        return $this->retypedPassword;
     }
 
-    public function setRetypePassword($retypePassword): self
+    public function setRetypedPassword(string $retypedPassword): self
     {
-        $this->retypePassword = $retypePassword;
+        $this->retypedPassword = $retypedPassword;
 
         return $this;
     }
