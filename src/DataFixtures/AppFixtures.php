@@ -1,9 +1,7 @@
 <?php
-
 namespace App\DataFixtures;
 
 use App\Entity\{BlogPost, Comment, User};
-use App\Security\TokenAuthenticator;
 use App\Security\TokenGenerator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -25,6 +23,11 @@ class AppFixtures extends Fixture
     private $passwordEncode;
     private $tokenGenerator;
 
+    /**
+     * AppFixtures constructor.
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param TokenGenerator $tokenGenerator
+     */
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, TokenGenerator $tokenGenerator)
     {
         $this->faker = \Faker\Factory::create();
@@ -32,6 +35,9 @@ class AppFixtures extends Fixture
         $this->tokenGenerator = $tokenGenerator;
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager): void
     {
         $this->loadUser($manager);
@@ -39,6 +45,9 @@ class AppFixtures extends Fixture
         $this->loadComment($manager);
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function loadUser(ObjectManager $manager): void
     {
         foreach (self::USERS as $userName => ['enabled' => $enabled, 'roles' => $roles]) {
@@ -63,6 +72,9 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function loadBlogPost(ObjectManager $manager): void
     {
         $userRolesSupport = [
@@ -87,6 +99,9 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function loadComment(ObjectManager $manager): void
     {
         $userRolesSupport = [
@@ -112,6 +127,10 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * @param array $supportRoles
+     * @return User
+     */
     private function getRandomUser($supportRoles = []): User
     {
         $randomUsername = array_rand(self::USERS);
@@ -120,6 +139,7 @@ class AppFixtures extends Fixture
             return $this->getRandomUser($supportRoles);
         }
 
+        /** @var User $user */
         $user = $this->getReference('user_' . $randomUsername);
         return $user;
     }

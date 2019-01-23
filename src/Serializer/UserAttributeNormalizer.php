@@ -18,6 +18,10 @@ class UserAttributeNormalizer implements ContextAwareNormalizerInterface, Serial
      */
     private $tokenStorage;
 
+    /**
+     * UserAttributeNormalizer constructor.
+     * @param TokenStorageInterface $tokenStorage
+     */
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
@@ -28,7 +32,7 @@ class UserAttributeNormalizer implements ContextAwareNormalizerInterface, Serial
      *
      * @param array $context options that normalizers have access to
      */
-    public function supportsNormalization($data, $format = null, array $context = [])
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         if (isset($context[self::USER_ATTRIBUTE_NORMALIZER_ALREADY_CALLED])) {
             return false;
@@ -61,11 +65,21 @@ class UserAttributeNormalizer implements ContextAwareNormalizerInterface, Serial
         return $this->passOn($object, $format, $context);
     }
 
-    private function isUserHimSelf($object)
+    /**
+     * @param $object
+     * @return bool
+     */
+    private function isUserHimSelf($object): bool
     {
         return ($object->getUsername() === $this->tokenStorage->getToken()->getUsername());
     }
 
+    /**
+     * @param $object
+     * @param string $format
+     * @param array $context
+     * @return array|bool|float|int|string
+     */
     private function passOn($object, string $format, array $context)
     {
         if (!$this->serializer instanceof NormalizableInterface) {

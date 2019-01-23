@@ -1,7 +1,6 @@
 <?php
 namespace App\Serializer;
 
-use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Serializer\SerializerContextBuilderInterface;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +17,11 @@ class UserContextBuilder implements SerializerContextBuilderInterface
      */
     private $authorizationChecker;
 
+    /**
+     * UserContextBuilder constructor.
+     * @param SerializerContextBuilderInterface $decorated
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     */
     public function __construct(SerializerContextBuilderInterface $decorated, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->decorated = $decorated;

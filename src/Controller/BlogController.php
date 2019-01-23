@@ -4,9 +4,7 @@ namespace App\Controller;
 use App\Entity\BlogPost;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,8 +14,11 @@ class BlogController extends AbstractController
 {
     /**
      * @Route("/", name="blog_list", defaults={"page": 5}, requirements={"page"="\d+"}, methods={"GET"})
-    */
-    public function list(Request $request, $page = 1)
+     * @param Request $request
+     * @param int $page
+     * @return JsonResponse
+     */
+    public function list(Request $request, $page = 1): JsonResponse
     {
         $limit = $request->get('limit', 10);
         $repository = $this->getDoctrine()->getRepository(BlogPost::class);
@@ -36,8 +37,10 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/post/{id}", name="blog_by_id", requirements={"id"="\d+"}, methods={"GET"})
-    */
-    public function post(int $id)
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function post(int $id): JsonResponse
     {
         return $this->json(
             $this->getDoctrine()->getRepository(BlogPost::class)->find($id)
@@ -46,8 +49,10 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/post/author/{author}", name="blog_by_author", methods={"GET"})
+     * @param BlogPost $post
+     * @return JsonResponse
      */
-    public function postByAuthor(BlogPost $post)
+    public function postByAuthor(BlogPost $post): JsonResponse
     {
         return $this->json($post);
     }
@@ -57,16 +62,20 @@ class BlogController extends AbstractController
      * The below annotation is not required when $post is typehinted by BlogPost and route parameter name matches any fields on this entity
      * @ParamConverter("post", class="App:BlogPost")
      * alternative: ParamConverter("post", class="App:BlogPost", options={"mapping": {"slug": "slug"}})
-    */
-    public function postBySlug($post)
+     * @param $post
+     * @return JsonResponse
+     */
+    public function postBySlug($post): JsonResponse
     {
         return $this->json($post);
     }
 
     /**
      * @Route("/add", name="blog_add", methods={"POST"})
-    */
-    public function add(Request $request)
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function add(Request $request): JsonResponse
     {
         $serializer = $this->get('serializer');
         $em = $this->getDoctrine()->getManager();
@@ -80,8 +89,10 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/post/{id}", name="blog_delete_by_id", requirements={"id"="\d+"}, methods={"DELETE"})
+     * @param BlogPost $post
+     * @return JsonResponse
      */
-    public function delete(BlogPost $post)
+    public function delete(BlogPost $post): JsonResponse
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($post);

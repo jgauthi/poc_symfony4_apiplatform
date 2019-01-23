@@ -24,6 +24,7 @@ class DefaultController extends AbstractController
      * @param string $token
      * @param UserConfirmationService $userConfirmationService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \App\Exception\InvalidConfirmationTokenException
      */
     public function confirmUser(string $token, UserConfirmationService $userConfirmationService): RedirectResponse
     {
