@@ -30,6 +30,10 @@ More information on [symfony website](https://symfony.com/doc/4.2/reference/requ
     * Functional testing (Behat)
     * Data fixture with Faker
 
+Additional commands lines:
+* `php bin/console blogpost:list --number=10 --order=DESC`: List BlogPost Items.
+* `php bin/console blogpost:view ID`: View BlogPost Items.
+
 **Front End Application (ReactJS / Redux) in other git project:**
 https://github.com/jgauthi/poc_reactjs_redux
 
