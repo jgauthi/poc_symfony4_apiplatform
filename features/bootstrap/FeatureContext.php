@@ -1,6 +1,6 @@
 <?php
 
-use App\DataFixtures\AppFixtures;
+use App\DataFixtures\{UserFixtures, BlogPostFixtures, CommentFixtures};
 use Behat\Gherkin\Node\PyStringNode;
 use Behatch\Context\RestContext;
 use Behatch\HttpCall\Request;
@@ -21,9 +21,9 @@ class FeatureContext extends RestContext
     ';
 
     /**
-     * @var AppFixtures
+     * @var array
      */
-    private $fixtures;
+    private $fixtures = [];
 
     /**
      * @var \Coduo\PHPMatcher\Matcher
@@ -38,12 +38,18 @@ class FeatureContext extends RestContext
     /**
      * FeatureContext constructor.
      * @param Request $request
-     * @param AppFixtures $fixtures
      * @param EntityManagerInterface $em
+     * @param UserFixtures $userFixtures
+     * @param BlogPostFixtures $blogPostFixtures
+     * @param CommentFixtures $commentFixtures
      */
-    public function __construct(Request $request, AppFixtures $fixtures, EntityManagerInterface $em)
+    public function __construct(Request $request, EntityManagerInterface $em, UserFixtures $userFixtures, BlogPostFixtures $blogPostFixtures, CommentFixtures $commentFixtures)
     {
-        $this->fixtures = $fixtures;
+        $this->fixtures = [
+            $userFixtures,
+            $blogPostFixtures,
+            $commentFixtures,
+        ];
         $this->em = $em;
         $this->matcher = (new SimpleFactory())->createMatcher();
 
@@ -62,7 +68,7 @@ class FeatureContext extends RestContext
             $this->locatePath(self::AUTH_URL),
             [],
             [],
-            sprintf(self::AUTH_JSON, $user, AppFixtures::PASSWORD)
+            sprintf(self::AUTH_JSON, $user, UserFixtures::PASSWORD)
         );
 
         $json = json_decode($this->request->getContent(), true);
@@ -92,7 +98,7 @@ class FeatureContext extends RestContext
             $purger
         );
 
-        $fixturesExecutor->execute([$this->fixtures]);
+        $fixturesExecutor->execute($this->fixtures);
     }
 
     /**

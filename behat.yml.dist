@@ -3,8 +3,10 @@ default:
         default:
             contexts:
             - FeatureContext:
-                  fixtures: '@App\DataFixtures\AppFixtures'
                   em: '@doctrine.orm.default_entity_manager'
+                  userFixtures: '@App\DataFixtures\UserFixtures'
+                  blogPostFixtures: '@App\DataFixtures\BlogPostFixtures'
+                  commentFixtures: '@App\DataFixtures\CommentFixtures'
             - Behat\MinkExtension\Context\MinkContext
             - behatch:context:json
 
