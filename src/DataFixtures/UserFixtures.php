@@ -1,7 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
-use App\Entity\{BlogPost, Comment, User};
+use App\Entity\User;
 use App\Security\TokenGenerator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -37,6 +37,7 @@ class UserFixtures extends Fixture
 
     /**
      * @param ObjectManager $manager
+     * @throws \Exception
      */
     public function load(ObjectManager $manager): void
     {

@@ -1,16 +1,14 @@
 <?php
 namespace App\DataFixtures;
 
-use App\Entity\{BlogPost, Comment, User};
-use App\Security\TokenGenerator;
+use App\Entity\{Comment, User};
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
-    const NB_FIXTURE = 10;
+    public const NB_FIXTURE = 10;
     private $faker;
 
     public function __construct()

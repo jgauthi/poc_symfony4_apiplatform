@@ -3,7 +3,7 @@ namespace App\Tests\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\{BlogPost, Comment, User};
-use App\EventSubscriber\AuthoredEntitySubscriber;
+use App\Event\Subscriber\AuthoredEntitySubscriber;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -110,7 +110,8 @@ class AuthoredEntitySubscriberTest extends TestCase
     }
 
     /**
-     * @param $className
+     * @param string $className
+     * @param bool $shouldCallSetAuthor
      * @return MockObject
      */
     private function getEntityMock(string $className, bool $shouldCallSetAuthor): MockObject

@@ -1,6 +1,6 @@
 <?php
 // Api Platform: BlogPost -> Set Author with user's token
-namespace App\EventSubscriber;
+namespace App\Event\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\AuthoredEntityInterface;

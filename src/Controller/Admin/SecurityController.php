@@ -1,11 +1,11 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminSecurityController extends AbstractController
+class SecurityController extends AbstractController
 {
     /**
      * @Route("/route", name="security_login")

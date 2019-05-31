@@ -1,6 +1,6 @@
 <?php
 // Api Platform: BlogPost/Comment -> Set Publish date
-namespace App\EventSubscriber;
+namespace App\Event\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\PublishedDateEntityInterface;

@@ -5,16 +5,16 @@ use App\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\ExpiredTokenException;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\PreAuthenticationJWTUserToken;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Guard\JWTTokenAuthenticator;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\User\{UserInterface, UserProviderInterface};
 
 class TokenAuthenticator extends JWTTokenAuthenticator
 {
     /**
      * @param PreAuthenticationJWTUserToken $preAuthToken
      * @param UserProviderInterface $userProvider
-     * @return null|\Symfony\Component\Security\Core\User\UserInterface
+     * @return null|UserInterface
      */
-    public function getUser($preAuthToken, UserProviderInterface $userProvider): UserProviderInterface
+    public function getUser($preAuthToken, UserProviderInterface $userProvider): UserInterface
     {
         /** @var User $user */
         $user = parent::getUser($preAuthToken, $userProvider);

@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use ApiPlatform\Core\Validator\Exception\ValidationException;
 use ApiPlatform\Core\Validator\ValidatorInterface;

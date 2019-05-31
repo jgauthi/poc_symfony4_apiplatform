@@ -1,16 +1,14 @@
 <?php
 namespace App\DataFixtures;
 
-use App\Entity\{BlogPost, Comment, User};
-use App\Security\TokenGenerator;
+use App\Entity\{BlogPost, User};
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class BlogPostFixtures extends Fixture implements DependentFixtureInterface
 {
-    const NB_FIXTURE = 100;
+    public const NB_FIXTURE = 100;
     private $faker;
 
     public function __construct()
@@ -62,7 +60,7 @@ class BlogPostFixtures extends Fixture implements DependentFixtureInterface
      * @param array $supportRoles
      * @return User
      */
-    private function getRandomUser($supportRoles = []): User
+    private function getRandomUser(array $supportRoles = []): User
     {
         $randomUsername = array_rand(UserFixtures::USERS);
 

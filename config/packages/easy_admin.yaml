@@ -28,5 +28,5 @@ easy_admin:
                 - { property: 'file', type: 'vich_image', label: 'Image' }
         User:
             class: App\Entity\User
-            controller: App\Controller\UserAdminController
+            controller: App\Controller\Admin\UserController
 

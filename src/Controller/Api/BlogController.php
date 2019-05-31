@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\BlogPost;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;

@@ -12,7 +12,7 @@ class UserEnabledChecker implements UserCheckerInterface
      *
      * @param UserInterface $user
      */
-    public function checkPreAuth(UserInterface $user)
+    public function checkPreAuth(UserInterface $user): void
     {
         if (!$user instanceof User) {
             return;
@@ -28,8 +28,5 @@ class UserEnabledChecker implements UserCheckerInterface
      *
      * @param UserInterface $user
      */
-    public function checkPostAuth(UserInterface $user)
-    {
-
-    }
+    public function checkPostAuth(UserInterface $user): void { }
 }

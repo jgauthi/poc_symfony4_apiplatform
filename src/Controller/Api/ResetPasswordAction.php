@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Entity\User;
@@ -39,7 +39,7 @@ class ResetPasswordAction
         $this->tokenManager = $tokenManager;
     }
 
-    public function __invoke(User $data)
+    public function __invoke(User $data): JsonResponse
     {
         $this->validator->validate($data);
         $data->setPassword( $this->userPasswordEncoder->encodePassword($data, $data->getNewPassword()) );

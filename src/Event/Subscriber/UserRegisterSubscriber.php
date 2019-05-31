@@ -1,6 +1,6 @@
 <?php
 // Api Platform: User password encoder
-namespace App\EventSubscriber;
+namespace App\Event\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Email\Mailer;

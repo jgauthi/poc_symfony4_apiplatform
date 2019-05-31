@@ -1,7 +1,7 @@
 <?php
 namespace App\Entity;
 
-use App\Controller\ResetPasswordAction;
+use App\Controller\Api\ResetPasswordAction;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Doctrine\ORM\Mapping as ORM;
@@ -172,12 +172,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $enabled;
+    private $enabled = false;
 
     /**
      * @ORM\Column(type="string", length=40, nullable=true)
      */
-    private $confirmationToken;
+    private $confirmationToken = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\BlogPost", mappedBy="author")
@@ -196,8 +196,6 @@ class User implements UserInterface
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->roles = self::DEFAULT_ROLES;
-        $this->enabled = false;
-        $this->confirmationToken = null;
     }
 
     public function __toString(): string

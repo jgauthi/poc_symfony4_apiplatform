@@ -1,11 +1,11 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserAdminController extends EasyAdminController
+class UserController extends EasyAdminController
 {
     /**
      * @var UserPasswordEncoderInterface

@@ -9,14 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * @Route("/")
 */
-class DefaultController extends AbstractController
+class WebController extends AbstractController
 {
     /**
      * @Route("/", name="default_index")
     */
-    public function index(): Response
+    public function home(): Response
     {
-        return $this->render('base.html.twig');
+        return $this->render('home.html.twig');
     }
 
     /**

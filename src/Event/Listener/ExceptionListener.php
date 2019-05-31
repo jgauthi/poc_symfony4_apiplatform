@@ -1,5 +1,5 @@
 <?php
-namespace App\EventListener;
+namespace App\Event\Listener;
 
 use ApiPlatform\Core\Exception\{InvalidArgumentException, ItemNotFoundException};
 use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
