@@ -26,7 +26,7 @@ security:
                 failure_handler:    lexik_jwt_authentication.handler.authentication_failure
             guard:
                 authenticators:
-                - App\Security\TokenAuthenticator
+                - App\Security\Guard\TokenAuthenticator
             #   - lexik_jwt_authentication.jwt_token_authenticator
             user_checker: App\Security\UserEnabledChecker
 
