@@ -1,7 +1,7 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     encoders:
-        App\Entity\User: bcrypt
+        App\Entity\User: auto
     providers:
     #   in_memory: { memory: ~ }
         database:
