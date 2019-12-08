@@ -23,7 +23,7 @@ class WebController extends AbstractController
      * @Route("/confirm-user/{token}", name="default_confirm_token")
      * @param string $token
      * @param UserConfirmationService $userConfirmationService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      * @throws \App\Exception\InvalidConfirmationTokenException
      */
     public function confirmUser(string $token, UserConfirmationService $userConfirmationService): RedirectResponse

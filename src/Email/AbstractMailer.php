@@ -1,7 +1,7 @@
 <?php
 namespace App\Email;
 
-use Swift_Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 use Twig\Environment as Twig_Environment;
 
 abstract class AbstractMailer
@@ -9,7 +9,7 @@ abstract class AbstractMailer
     protected const MAIL_FROM = 'api_platform@symfony.local';
 
     /**
-     * @var Swift_Mailer
+     * @var MailerInterface
      */
     protected $mailer;
 
@@ -18,7 +18,7 @@ abstract class AbstractMailer
      */
     protected $twig;
 
-    public function __construct(Swift_Mailer $mailer, Twig_Environment $twig)
+    public function __construct(MailerInterface $mailer, Twig_Environment $twig)
     {
         $this->mailer = $mailer;
         $this->twig = $twig;
