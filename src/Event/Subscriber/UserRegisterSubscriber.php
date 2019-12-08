@@ -3,7 +3,7 @@
 namespace App\Event\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
-use App\Email\Mailer;
+use App\Email\UserConfirmationMailer;
 use App\Entity\User;
 use App\Security\TokenGenerator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -23,11 +23,11 @@ class UserRegisterSubscriber implements EventSubscriberInterface
      */
     private $tokenGenerator;
     /**
-     * @var Mailer
+     * @var UserConfirmationMailer
      */
     private $mailer;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, TokenGenerator $tokenGenerator, Mailer $mailer)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, TokenGenerator $tokenGenerator, UserConfirmationMailer $mailer)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->tokenGenerator = $tokenGenerator;
@@ -46,9 +46,9 @@ class UserRegisterSubscriber implements EventSubscriberInterface
 
     /**
      * @param GetResponseForControllerResultEvent $event
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function userRegistered(GetResponseForControllerResultEvent $event): void
     {
@@ -63,6 +63,6 @@ class UserRegisterSubscriber implements EventSubscriberInterface
         $user->setConfirmationToken( $this->tokenGenerator->getRandomSecureToken() );
 
         // Send token by email
-        $this->mailer->sendConfirmationEmail($user);
+        $this->mailer->send($user);
     }
 }
