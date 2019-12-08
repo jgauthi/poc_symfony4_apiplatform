@@ -30,3 +30,10 @@ easy_admin:
             class: App\Entity\User
             controller: App\Controller\Admin\UserController
 
+    design:
+        menu:
+            - { entity: 'BlogPost', icon: 'newspaper' }
+            - { entity: 'Comment', icon: 'comments' }
+            - { entity: 'Image', icon: 'images' }
+            - { entity: 'User', icon: 'users' }
+            - { label: 'Front End', route: 'default_index', icon: 'home' }
