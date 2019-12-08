@@ -6,7 +6,7 @@ use App\Entity\UserConfirmation;
 use App\Security\UserConfirmationService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\{JsonResponse, Response};
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class UserConfirmationSubscriber implements EventSubscriberInterface
@@ -32,10 +32,10 @@ class UserConfirmationSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param GetResponseForControllerResultEvent $event
+     * @param ViewEvent $event
      * @throws \App\Exception\InvalidConfirmationTokenException
      */
-    public function confirmUser(GetResponseForControllerResultEvent $event): void
+    public function confirmUser(ViewEvent $event): void
     {
         $request = $event->getRequest();
 
