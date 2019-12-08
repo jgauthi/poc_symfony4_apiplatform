@@ -49,6 +49,7 @@ class UserRegisterSubscriber implements EventSubscriberInterface
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
+     * @throws \Exception
      */
     public function userRegistered(ViewEvent $event): void
     {

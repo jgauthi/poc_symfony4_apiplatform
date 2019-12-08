@@ -27,7 +27,6 @@
         "symfony/serializer-pack": "*",
         "symfony/swiftmailer-bundle": "*",
         "symfony/translation": "*",
-        "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/web-link": "*",
         "symfony/yaml": "*",
@@ -45,8 +44,7 @@
         "symfony/phpunit-bridge": "*",
         "symfony/profiler-pack": "*",
         "symfony/requirements-checker": "*",
-        "symfony/test-pack": "*",
-        "symfony/web-server-bundle": "*"
+        "symfony/test-pack": "*"
     },
     "config": {
         "preferred-install": {
@@ -94,7 +92,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "4.3.*"
+            "require": "4.4.*"
         }
     }
 }

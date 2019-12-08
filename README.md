@@ -13,6 +13,8 @@ More information on [symfony website](https://symfony.com/doc/4.2/reference/requ
 ## Features developed
 
 **BackEnd Application:**
+The development started in Symfony 4.1, and migrate successively to 4.2, 4.3 and finally 4.4.
+
 * Rest Api
     * API Platform
     * Authentication with JWT (user sign-up, sign-in, including account confirmation through e-mail)

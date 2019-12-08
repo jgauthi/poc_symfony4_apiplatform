@@ -6,7 +6,7 @@ use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\PublishedDateEntityInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class PublishedDateEntitySubscriber implements EventSubscriberInterface
@@ -18,7 +18,7 @@ class PublishedDateEntitySubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function setPublishedDate(GetResponseForControllerResultEvent $event)
+    public function setPublishedDate(ViewEvent $event)
     {
         $entity = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();

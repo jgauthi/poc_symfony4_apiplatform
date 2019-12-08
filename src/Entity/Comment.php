@@ -29,6 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "api_blog_posts_comments_get_subresource"={
+ *              "route_name": "Comments with author",
  *              "normalization_context"={
  *                  "groups"={"get-comment-with-author"}
  *              }

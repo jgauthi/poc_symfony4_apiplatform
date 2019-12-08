@@ -66,12 +66,12 @@ class UserAttributeNormalizer implements ContextAwareNormalizerInterface, Serial
     }
 
     /**
-     * @param $object
+     * @param User $user
      * @return bool
      */
-    private function isUserHimSelf($object): bool
+    private function isUserHimSelf(User $user): bool
     {
-        return ($object->getUsername() === $this->tokenStorage->getToken()->getUsername());
+        return ($user->getUsername() === $this->tokenStorage->getToken()->getUsername());
     }
 
     /**
@@ -82,7 +82,7 @@ class UserAttributeNormalizer implements ContextAwareNormalizerInterface, Serial
      */
     private function passOn($object, string $format, array $context)
     {
-        if (!$this->serializer instanceof NormalizableInterface) {
+        if (!method_exists($this->serializer, 'normalize')) {
             throw new \LogicException("Cannot normalize object \"{$object}\" because the injected normalizer is not a normalizer.");
         }
 
